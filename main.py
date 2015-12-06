@@ -2,7 +2,7 @@ import sys
 import praw
 
 user_agent = "Reddit Analayzer 1.0 by JP, Josh, and Gabie"
-chars_to_ignore = ",.:;?[]{}_+=\\|0123456789<>!@#$%^&*()-~"
+chars_to_ignore = ",.:;?[]{}_+=\\/|0123456789<>!@#$%^&*()-~"
 
 def read_file(file):
     word_list = []
