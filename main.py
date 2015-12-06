@@ -2,7 +2,6 @@ import sys
 import praw
 
 user_agent = "Reddit Analayzer 1.0 by JP, Josh, and Gabie"
-#transition_words = "transition_words.txt"
 chars_to_ignore = ",:"
 
 def read_file(file):
@@ -14,7 +13,7 @@ def read_file(file):
 def main():
     if len(sys.argv) < 4:
         print "Not Enough Arguments"
-        print "Usage: python2 %s subreddit_name #_of_posts words_to_exclude" % sys.argv[0]
+        print "Usage: python2 %s subreddit_name #_of_posts words_to_exclude_file" % sys.argv[0]
         exit(0)
 
     exclude_words = read_file(sys.argv[3])
@@ -23,11 +22,10 @@ def main():
     r = praw.Reddit(user_agent=user_agent)
     posts = r.get_subreddit(subreddit).get_hot(limit=sys.argv[2])
     for x in posts:
-        post = parse_post(x, exclude_words)
-        print post
-        #flat = praw.helpers.flatten_tree(x.comments)
-        #for comment in flat:
-        #    print comment
+        print parse_post(x, exclude_words)
+        flat = praw.helpers.flatten_tree(x.comments)
+        for comment in flat:
+            print parse_post(comment, exclude_words)
 
 def parse_post(post, words):
     parsed_list = []
