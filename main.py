@@ -2,7 +2,7 @@ import sys
 import praw
 
 user_agent = "Reddit Analayzer 1.0 by JP, Josh, and Gabie"
-chars_to_ignore = ",:?*"
+chars_to_ignore = ",.:?!*"
 
 def read_file(file):
     word_list = []
@@ -25,7 +25,10 @@ def main():
         print parse_post(x, exclude_words)[2:]
         flat = praw.helpers.flatten_tree(x.comments)
         for comment in flat:
-            print parse_post(comment.body.encode("ascii", "ignore"), exclude_words)
+            try:
+                print parse_post(comment.body.encode("ascii", "ignore"), exclude_words)
+            except AttributeError:
+                pass
 
 def parse_post(post, words):
     parsed_list = []
