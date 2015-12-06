@@ -2,7 +2,7 @@ import sys
 import praw
 
 user_agent = "Reddit Analayzer 1.0 by JP, Josh, and Gabie"
-chars_to_ignore = ",:"
+chars_to_ignore = ",:?*"
 
 def read_file(file):
     word_list = []
@@ -22,15 +22,15 @@ def main():
     r = praw.Reddit(user_agent=user_agent)
     posts = r.get_subreddit(subreddit).get_hot(limit=sys.argv[2])
     for x in posts:
-        print parse_post(x, exclude_words)
+        print parse_post(x, exclude_words)[2:]
         flat = praw.helpers.flatten_tree(x.comments)
         for comment in flat:
-            print parse_post(comment, exclude_words)
+            print parse_post(comment.body.encode("ascii", "ignore"), exclude_words)
 
 def parse_post(post, words):
     parsed_list = []
-    cur_words = str(post).split(" ")
-    cur_words = cur_words[2:]
+    cur_words = str(post)
+    cur_words = cur_words.lower().split(" ")
     for x in cur_words:
         x = x.strip(chars_to_ignore)
         if x not in words:
