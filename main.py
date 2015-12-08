@@ -13,14 +13,16 @@ def read_file(file):
 def main():
     if len(sys.argv) < 4:
         print "Not Enough Arguments"
-        print "Usage: python2 %s subreddit_name #_of_posts words_to_exclude_file" % sys.argv[0]
+        print "Usage: python2 %s subreddit_name #_of_posts_to_display words_to_exclude_file" % sys.argv[0]
         exit(0)
 
     exclude_words = read_file(sys.argv[3])
-
     subreddit = sys.argv[1]
-    r = praw.Reddit(user_agent=user_agent)
-    posts = r.get_subreddit(subreddit).get_hot(limit=sys.argv[2])
+    agent = praw.Reddit(user_agent=user_agent)
+    parse_subreddit(subreddit, agent, exclude_words)
+
+def parse_subreddit(subreddit, agent, exclude_words):
+    posts = agent.get_subreddit(subreddit).get_hot(limit=sys.argv[2])
     for x in posts:
         print parse_post(x, exclude_words)[2:]
         flat = praw.helpers.flatten_tree(x.comments)
