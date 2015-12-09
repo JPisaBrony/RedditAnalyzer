@@ -1,0 +1,3 @@
+"rules" "support" "confidence" "lift"
+"1" "{mr-marshmallow} => {from_the_country1508}" 0.2 1 5
+"2" "{from_the_country1508} => {mr-marshmallow}" 0.2 1 5
