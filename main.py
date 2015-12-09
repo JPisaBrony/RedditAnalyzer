@@ -15,11 +15,10 @@ def main():
             print "Usage: python2 %s subreddit_name #_of_posts" % sys.argv[0]
             exit(0)
         for x in file:
-            if x == "dataset.txt" or x == "output.txt":
+            if x == "output.txt":
                 pass
             else:
-                print "ivnalid files in %s to run this." % path
-                exit(0)
+                os.remove("./data/" + x)
         
     subreddit = sys.argv[1]
     r = praw.Reddit(user_agent=user_agent)

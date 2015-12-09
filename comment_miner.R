@@ -5,4 +5,5 @@ dataFile = "./data/dataset.txt"
 x = read.transactions(dataFile, format = c("basket"), rm.duplicates = TRUE)
 suppValue = 1 / dim(x)[1] + 0.01 #min support > 1 per post
 a = apriori(x, parameter = list(supp = suppValue))
+#itemFrequencyPlot(x, support = suppValue)
 write(a, file = "./data/output.txt")
