@@ -1,8 +1,12 @@
+import os
 import sys
 import praw
+from scipy.stats.vonmises_cython import numpy
+from __builtin__ import file
+#from numpy.distutils.from_template import outfile
 
 user_agent = "Reddit Analayzer 1.0 by JP, Josh, and Gabie"
-outfile = open("output.txt", 'w')
+#outfile = open("output.txt", 'w')
 
 def main():
     if len(sys.argv) < 3:
@@ -33,10 +37,20 @@ def main():
         run_times += 1
         if run_times >= int(sys.argv[2]):
             break
+    combine()
     
 def write_to_file(post):
     for x in post:
-        outfile.write(x + " " + post[x].encode("ascii", "ignore") + "\n")
+        outfile = open("data/"+post[x], "a")
+        outfile.write(x + " ")#post[x].encode("ascii", "ignore") + ";")
+        outfile.close()
+        
+def combine():
+    outfile = open("./data/output.txt", "w")
+    for path,dir,file in os.walk("./data"):
+        for x in file:
+            outfile.write(open("./data/" + x).readline() + "\n")
+    outfile.close()
 
 if __name__ == "__main__":
     main()
