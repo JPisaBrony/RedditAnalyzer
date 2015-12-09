@@ -1,3 +1,6 @@
 require("arules")
 dataFile = file.choose()
 setwd(dirname(dataFile))
+x = read.transactions(dataFile, format = c("basket"), rm.duplicates = FALSE)
+a = apriori(x, parameter = list(supp = .2))
+inspect(a)
