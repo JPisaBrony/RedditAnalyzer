@@ -49,7 +49,7 @@ def main():
     
 def write_to_file(post):
     for x in post:
-        outfile = open("data/"+post[x].encode("UTF-8", "ignore"), "a")
+        outfile = open("./data/%s" % post[x].encode("UTF-8", "ignore"), "a")
         outfile.write(x.encode("UTF-8", "ignore") + " ", )#post[x].encode("ascii", "ignore") + ";")
         outfile.close()
         
