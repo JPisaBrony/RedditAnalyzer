@@ -14,9 +14,12 @@ def main():
             print "Not Enough Arguments"
             print "Usage: python2 %s subreddit_name #_of_posts" % sys.argv[0]
             exit(0)
-        if len(file) > 0:
-            print "remove files in %s to run this." % path
-            exit(0)
+        for x in file:
+            if x == "dataset.txt" or x == "output.txt":
+                pass
+            else:
+                print "ivnalid files in %s to run this." % path
+                exit(0)
         
     subreddit = sys.argv[1]
     r = praw.Reddit(user_agent=user_agent)
@@ -42,18 +45,27 @@ def main():
         if run_times >= int(sys.argv[2]):
             break
     combine()
+    os.system("Rscript comment_miner.R")
     
 def write_to_file(post):
     for x in post:
         outfile = open("data/"+post[x], "a")
-        outfile.write(x + " ")#post[x].encode("ascii", "ignore") + ";")
+        outfile.write(x.encode("UTF-8", "ignore") + " ", )#post[x].encode("ascii", "ignore") + ";")
         outfile.close()
         
 def combine():
-    outfile = open("./data/output.txt", "w")
+    outfile = open("./data/dataset.txt", "w")
     for path,dir,file in os.walk("./data"):
         for x in file:
-            outfile.write(open("./data/" + x).readline() + "\n")
+            if x == "dataset.txt" or x == "output.txt":
+                pass
+            else:
+                outfile.write(open("./data/" + x).readline() + "\n")
+        for x in file:
+            if x == "dataset.txt" or x == "output.txt":
+                pass
+            else:
+                os.remove("./data/" + x)
     outfile.close()
 
 if __name__ == "__main__":
