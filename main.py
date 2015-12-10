@@ -19,7 +19,7 @@ def main():
                 pass
             else:
                 os.remove("./data/" + x)
-        
+
     subreddit = sys.argv[1]
     r = praw.Reddit(user_agent=user_agent)
     posts = r.get_subreddit(subreddit).get_hot(limit=sys.argv[2])
@@ -45,13 +45,16 @@ def main():
             break
     combine()
     os.system("Rscript comment_miner.R")
-    
+
 def write_to_file(post):
     for x in post:
-        outfile = open("./data/%s" % post[x].encode("UTF-8", "ignore"), "a")
-        outfile.write(x.encode("UTF-8", "ignore") + " ", )#post[x].encode("ascii", "ignore") + ";")
-        outfile.close()
-        
+        try:
+            outfile = open("./data/%s" % post[x].encode("UTF-8", "ignore"), "a")
+            outfile.write(x.encode("UTF-8", "ignore") + " ", )
+            outfile.close()
+        except:
+            pass
+
 def combine():
     outfile = open("./data/dataset.txt", "w")
     for path,dir,file in os.walk("./data"):
